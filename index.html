@@ -9,6 +9,7 @@
       text-align: center;
       background: #f9f9f9;
     }
+    /* --- Istniejący CSS dla Mapy/Toalet --- */
     .map-container {
       position: relative;
       display: inline-block;
@@ -31,7 +32,7 @@
       box-shadow: 0 0 5px rgba(0,0,0,0.4);
     }
     .tooltip {
-      position: absolute;
+      position: fixed; /* Zmiana na fixed dla lepszej obsługi w zakładkach */
       background: white;
       padding: 5px 10px;
       border: 1px solid #ccc;
@@ -42,45 +43,114 @@
       font-size: 14px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
+
+    /* --- NOWY CSS dla Zakładek --- */
+    .tab-buttons {
+      margin: 20px 0 0 0;
+      border-bottom: 1px solid #ccc;
+      display: inline-block; /* Wyśrodkowanie przycisków */
+    }
+    .tab-link {
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      outline: none;
+      cursor: pointer;
+      padding: 10px 15px;
+      transition: 0.3s;
+      font-size: 16px;
+      border-radius: 5px 5px 0 0;
+      margin-right: -1px; /* Aby uniknąć podwójnej ramki */
+    }
+    .tab-link:hover:not(.active) {
+      background-color: #ddd;
+    }
+    .tab-link.active {
+      background-color: white;
+      border-bottom: 1px solid white; /* Ukrywa dolną ramkę, aby wyglądała na połączoną z treścią */
+    }
+    .tab-content {
+      display: none; /* Domyślnie ukrywa treść zakładki */
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 0 0 10px 10px;
+      background-color: white;
+      text-align: center;
+    }
+    .tab-content.active {
+      display: block; /* Pokazuje aktywną treść zakładki */
+    }
+    .legend-list {
+        text-align: left;
+        display: inline-block; /* Wyśrodkowanie listy */
+        list-style-position: inside;
+        padding-left: 0;
+    }
+    .legend-list li {
+        margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
 
 <h2>Mapa toalet WUM – Kampus Banacha</h2>
 
-<div class="map-container" id="map">
-  <!-- Zmień nazwę pliku jeśli obrazek ma inną -->
-  <img src="mapa_wum.png" alt="Mapa WUM">
+<div class="tab-buttons">
+  <button class="tab-link active" data-tab="mapa">Kampus Banacha</button>
+  <button class="tab-link" data-tab="legenda">Legenda Kampusu</button>
+</div>
 
-  <!-- Toaleta przy nr 11 -->
-  <div class="toilet" 
-       style="top: 20.64%; left: 76.17%;" 
-       data-info="UCS (nr 11): Toaleta 1-osobowa, bardzo dobra."></div>
+<div id="mapa" class="tab-content active">
+  <p>Kliknij w niebieskie kółko, aby zobaczyć informację o toalecie.</p>
+  <div class="map-container" id="map">
+    <img src="mapa_wum.png" alt="Mapa WUM">
 
-  <!-- Toaleta przy nr 2 -->
-  <div class="toilet" 
-       style="top: 41.25%; left: 63.03%;" 
-       data-info="CD (nr 2): toaleta otwarta słaba"></div>
+    <div class="toilet" 
+         style="top: 20.64%; left: 76.17%;" 
+         data-info="UCS (nr 11): Toaleta 1-osobowa, bardzo dobra."></div>
 
-  <!-- Toaleta przy nr 6 -->
-  <div class="toilet" 
-       style="top: 25.80%; left: 39.17%;" 
-       data-info="zaklad patomorfologii (nr 7): Dobra toaleta na 3 piętrze"></div>
+    <div class="toilet" 
+         style="top: 41.25%; left: 63.03%;" 
+         data-info="CD (nr 2): toaleta otwarta słaba"></div>
 
-  <!-- Toaleta przy nr 7 -->
-  <div class="toilet" 
-       style="top: 24.89%; left: 26.03%;" 
-       data-info="CSM (nr 14): Duże toalety w szatniach w podziemiach, brak ludzi i brak zasięgu"></div>
+    <div class="toilet" 
+         style="top: 25.80%; left: 39.17%;" 
+         data-info="zaklad patomorfologii (nr 7): Dobra toaleta na 3 piętrze"></div>
 
-  <!-- Toaleta przy nr 8 -->
-  <div class="toilet" 
-       style="top: 42.86%; left: 43.32%;" 
-       data-info="CSR (nr 13): Fajne toalety, dużo ich na każdym piętrze, mało ludzi, ale otwarte"></div>
+    <div class="toilet" 
+         style="top: 24.89%; left: 26.03%;" 
+         data-info="CSM (nr 14): Duże toalety w szatniach w podziemiach, brak ludzi i brak zasięgu"></div>
+
+    <div class="toilet" 
+         style="top: 42.86%; left: 43.32%;" 
+         data-info="CSR (nr 13): Fajne toalety, dużo ich na każdym piętrze, mało ludzi, ale otwarte"></div>
+  </div>
+</div>
+
+<div id="legenda" class="tab-content">
+  <h3>Legenda Kampusu Banacha:</h3>
+  <ol class="legend-list">
+    <li>Rektorat WUM.</li>
+    <li>Centrum Dydaktyczne (CD)</li>
+    <li>Centrum Biblioteczno-Informacyjne (CBI)</li>
+    <li>Centralny Szpital Kliniczny przy ul. Banacha</li>
+    <li>Szpital Pediatryczny WUM</li>
+    <li>Blok F Szpitala Banacha</li>
+    <li>Zakład Fizjologii oraz Zakład Genetyki</li>
+    <li>Zakład Patomorfologii</li>
+    <li>Wydział Farmaceutyczny</li>
+    <li>Centrum Badań Przedklinicznych (CePT)</li>
+    <li>Uniwersyteckie Centrum Stomatologii (UCS)</li>
+    <li>ZIAM - Biuro Komunikacji i Promocji Uczelni</li>
+    <li>Centrum Sportowo-Rehabilitacyjne (CSR), Studium Wychowania Fizycznego</li>
+    <li>Centrum Symulacji Medycznych WUM</li>
+  </ol>
 </div>
 
 <div class="tooltip" id="tooltip"></div>
 
 <script>
+  // --- ISTNIEJĄCY SKRYPT DLA TOALET ---
   const toilets = document.querySelectorAll('.toilet');
   const tooltip = document.getElementById('tooltip');
 
@@ -89,18 +159,39 @@
       const info = t.getAttribute('data-info');
       tooltip.textContent = info;
       tooltip.style.display = 'block';
-      tooltip.style.top = (e.pageY - 40) + 'px';
-      tooltip.style.left = (e.pageX + 10) + 'px';
+      // Użycie clientX/Y i position: 'fixed' dla lepszej pozycji w dynamicznym układzie
+      tooltip.style.top = (e.clientY - 40) + 'px'; 
+      tooltip.style.left = (e.clientX + 10) + 'px';
     });
   });
 
   document.addEventListener('click', (e) => {
-    if (!e.target.classList.contains('toilet')) {
+    // Ukrywa tooltip, jeśli kliknięto poza kółkiem toalety i poza samym tooltipem
+    if (!e.target.classList.contains('toilet') && !e.target.classList.contains('tooltip')) {
       tooltip.style.display = 'none';
     }
+  });
+
+  // --- NOWY SKRYPT DLA ZAKŁADEK ---
+  const tabButtons = document.querySelectorAll('.tab-link');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Deaktywuj wszystkie przyciski i ukryj całą treść
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+      
+      // Aktywuj kliknięty przycisk i odpowiadającą mu treść
+      const tabId = button.getAttribute('data-tab');
+      document.getElementById(tabId).classList.add('active');
+      button.classList.add('active');
+      
+      // Ukryj dymek informacyjny przy przełączaniu zakładek
+      tooltip.style.display = 'none';
+    });
   });
 </script>
 
 </body>
 </html>
-
