@@ -22,8 +22,9 @@
     }
     .toilet {
       position: absolute;
-      width: 18px;
-      height: 18px;
+      /* ZMIANA: Zwiększony rozmiar z 18px na 24px */
+      width: 24px;
+      height: 24px;
       background: blue;
       border-radius: 50%;
       cursor: pointer;
@@ -182,16 +183,18 @@
   toilets.forEach(t => {
     t.addEventListener('click', (e) => {
       const info = t.getAttribute('data-info');
+      // Odczytaj hardkodowaną ocenę
       const rating = parseInt(t.getAttribute('data-rating')) || 0; 
       
       // 1. Zaktualizuj opis
       tooltipInfo.textContent = info;
       
-      // 2. Wygeneruj gwiazdki
+      // 2. Wygeneruj gwiazdki na podstawie data-rating
       let starsHtml = '';
       const totalStars = 5;
       
       for (let i = 1; i <= totalStars; i++) {
+        // Klasa 'selected' jest dodawana, jeśli numer gwiazdki (i) jest mniejszy lub równy ocenie (rating)
         const starClass = i <= rating ? 'selected' : '';
         starsHtml += `<span class="${starClass}">★</span>`;
       }
@@ -201,7 +204,7 @@
       // 3. Pokaż dymek (najpierw ustaw display: block, żeby móc zmierzyć jego szerokość)
       tooltip.style.display = 'block';
 
-      // 4. Inteligentne pozycjonowanie dymka (NOWA LOGIKA)
+      // 4. Inteligentne pozycjonowanie dymka 
       
       const tooltipWidth = tooltip.offsetWidth; // Szerokość dymka
       const windowWidth = window.innerWidth;   // Szerokość okna przeglądarki
