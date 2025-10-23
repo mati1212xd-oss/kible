@@ -182,29 +182,47 @@
   toilets.forEach(t => {
     t.addEventListener('click', (e) => {
       const info = t.getAttribute('data-info');
-      // Odczytaj hardkodowaną ocenę
       const rating = parseInt(t.getAttribute('data-rating')) || 0; 
       
       // 1. Zaktualizuj opis
       tooltipInfo.textContent = info;
       
-      // 2. Wygeneruj gwiazdki na podstawie data-rating
+      // 2. Wygeneruj gwiazdki
       let starsHtml = '';
       const totalStars = 5;
       
       for (let i = 1; i <= totalStars; i++) {
-        // Klasa 'selected' jest dodawana, jeśli numer gwiazdki (i) jest mniejszy lub równy ocenie (rating)
         const starClass = i <= rating ? 'selected' : '';
         starsHtml += `<span class="${starClass}">★</span>`;
       }
       
       ratingDisplay.innerHTML = starsHtml;
 
-      // 3. Pokaż dymek
+      // 3. Pokaż dymek (najpierw ustaw display: block, żeby móc zmierzyć jego szerokość)
       tooltip.style.display = 'block';
-      // Użycie clientX/Y i position: 'fixed'
+
+      // 4. Inteligentne pozycjonowanie dymka (NOWA LOGIKA)
+      
+      const tooltipWidth = tooltip.offsetWidth; // Szerokość dymka
+      const windowWidth = window.innerWidth;   // Szerokość okna przeglądarki
+      const clickX = e.clientX;                // Pozycja X kliknięcia
+
+      let newLeft = clickX + 10; // Domyślna pozycja (na prawo od kliknięcia)
+
+      // Sprawdź, czy dymek wykracza poza prawą krawędź okna
+      if (newLeft + tooltipWidth + 10 > windowWidth) {
+        // Jeśli tak, przesuń go na lewo od kliknięcia
+        newLeft = clickX - tooltipWidth - 10; 
+        
+        // Dodatkowe sprawdzenie, czy nie wychodzi poza lewą krawędź
+        if (newLeft < 10) {
+            newLeft = 10; // Ustaw stałą pozycję od lewej
+        }
+      }
+      
+      // Ustaw nową pozycję
       tooltip.style.top = (e.clientY - 40) + 'px'; 
-      tooltip.style.left = (e.clientX + 10) + 'px';
+      tooltip.style.left = newLeft + 'px';
     });
   });
 
