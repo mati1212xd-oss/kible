@@ -9,6 +9,16 @@
       text-align: center;
       background: #f9f9f9;
     }
+    /* --- CSS dla nagłówka i tła zakładek --- */
+    .header-container {
+        background-color: #e8eef3; /* Jasny niebiesko-szary kolor tła */
+        padding: 10px 10px 0 10px;
+        border-radius: 10px 10px 0 0;
+    }
+    body > h2 {
+        margin-top: 0; /* Usunięcie domyślnego marginesu h2 */
+    }
+    
     /* --- Istniejący CSS dla Mapy/Toalet --- */
     .map-container {
       position: relative;
@@ -78,6 +88,7 @@
       margin: 20px 0 0 0;
       border-bottom: 1px solid #ccc;
       display: inline-block;
+      margin-top: 0; /* Dopasowanie do nowego kontenera nagłówka */
     }
     .tab-link {
       background-color: #e9e9e9; 
@@ -97,7 +108,7 @@
     }
     .tab-link.active {
       background-color: white; 
-      border-bottom: 1px solid white;
+      border-bottom: 1px solid white; /* Łączy się z tłem .tab-content */
       font-weight: 700; 
       border-top: 3px solid blue;
       padding-top: 11px;
@@ -109,6 +120,9 @@
       border-radius: 0 0 10px 10px;
       background-color: white;
       text-align: center;
+      /* Dopasowanie do nowego tła nagłówka */
+      border-top: none; 
+      margin-top: -1px;
     }
     .tab-content.active {
       display: block;
@@ -126,12 +140,15 @@
 </head>
 <body>
 
-<h2>Mapa toalet WUM – Kampusy</h2>
+<div class="header-container">
+  <h2>Mapa toalet WUM – Kampusy</h2>
 
-<div class="tab-buttons">
-  <button class="tab-link active" data-tab="banacha">Kampus Banacha</button>
-  <button class="tab-link" data-tab="wolska">Wolska</button>
-  <button class="tab-link" data-tab="lindleya">Lindleya</button>
+  <div class="tab-buttons">
+    <button class="tab-link active" data-tab="banacha">Kampus Banacha</button>
+    <button class="tab-link" data-tab="wolska">Wolska</button>
+    <button class="tab-link" data-tab="lindleya">Lindleya</button>
+    <button class="tab-link" data-tab="litewska">Litewska</button>
+  </div>
 </div>
 
 <div id="banacha" class="tab-content active">
@@ -169,9 +186,9 @@
   <h3>Szpital Wolska</h3>
   <div style="text-align: left; display: inline-block;">
       <p>Bardzo fajne toalety na 1 piętrze w budynku gdzie są sale seminaryjne, mało ludzi.</p>
+      <hr style="margin: 10px 0;">
       <div class="rating-display" style="text-align: left;"> <span class="selected">★</span><span class="selected">★</span><span class="selected">★</span><span class="selected">★</span><span class="selected">★</span>
       </div>
-      <hr style="margin: 10px 0;">
       <p>Fajna toaleta na prawo za szatnią w budynku szpitala</p>
   </div>
 </div>
@@ -181,6 +198,11 @@
   <div class="map-container">
     <img src="mapa-lindleya.png" alt="Mapa Kampusu Lindleya">
   </div>
+</div>
+
+<div id="litewska" class="tab-content">
+  <h3>Kampus Litewska</h3>
+  <p>Dobre, nowoczesne toalety na każdym piętrze, dosyć mało ludzi.</p>
 </div>
 
 <div class="tooltip" id="tooltip">
@@ -274,4 +296,3 @@
 
 </body>
 </html>
-
