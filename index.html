@@ -155,6 +155,7 @@
     <button class="tab-link" data-tab="wolska">Wolska</button>
     <button class="tab-link" data-tab="lindleya">Lindleya</button>
     <button class="tab-link" data-tab="litewska">Litewska</button>
+  }
   </div>
 </div>
 
@@ -181,7 +182,8 @@
 
     <div class="toilet" data-toilet-id="toilet_14" data-rating="4"
          style="top: 24.89%; left: 26.03%;" 
-         data-info="CSM (nr 14): Duże toalety w szatniach w podziemiach, brak ludzi i brak zasięgu. Na 2 piętrze też spoko"></div>
+         data-info="CSM (nr 14): Duże toalety w szatniach w podziemiach, brak ludzi i brak zasięgu. Na 2 piętrze też spoko"
+         data-image="IMG_0788.jpg"></div>
 
     <div class="toilet" data-toilet-id="toilet_13" data-rating="5"
          style="top: 42.86%; left: 43.32%;" 
@@ -278,7 +280,7 @@
       // 4. Pokaż dymek (aby móc zmierzyć jego wymiary)
       tooltip.style.display = 'block';
 
-      // 5. --- CAŁKOWICIE NOWA, INTELIGENTNA LOGIKA POZYCJONOWANIA ---
+      // 5. --- INTELIGENTNA LOGIKA POZYCJONOWANIA ---
       
       // Wymiary okna i dymka
       const tooltipWidth = tooltip.offsetWidth;
@@ -319,7 +321,6 @@
   // Zamykanie dymka po kliknięciu GDZIEKOLWIEK indziej
   document.addEventListener('click', (e) => {
     // Ukrywa tooltip, jeśli kliknięto poza samym tooltipem
-    // (Kliknięcie na 'toilet' jest już obsługiwane przez e.stopPropagation() powyżej)
     if (!tooltip.contains(e.target)) {
       tooltip.style.display = 'none';
       tooltipImage.style.display = 'none'; 
