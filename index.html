@@ -207,7 +207,8 @@
     
     <div class="toilet" data-toilet-id="toilet_lindleya_1" data-rating="3"
          style="top: 36.45%; left: 34.94%;" 
-         data-info="(NR 10) Totalny PRL, spłukiwanie sznurkiem zwisającym z góry. Jedna w szatni studenckiej w podziemiach, druga na wprost od recepcji od wejścia. Jednoosobowe, ta koło recepcji lepsza."></div>
+         data-info="(NR 10) Totalny PRL, spłukiwanie sznurkiem zwisającym z góry. Jedna w szatni studenckiej w podziemiach, druga na wprost od recepcji od wejścia. Jednoosobowe, ta koło recepcji lepsza."
+         data-image="IMG_0702.jpg"></div>
          
   </div>
 </div>
@@ -229,44 +230,54 @@
 
 <div class="tooltip" id="tooltip">
     <div id="tooltip-info"></div>
+    <img id="tooltip-image" src="" alt="Zdjęcie toalety" style="max-width: 100%; height: auto; display: none; margin-top: 10px; border-radius: 5px;">
     <hr style="margin: 5px 0; border-top: 1px solid #eee;">
     <div style="font-weight: bold; text-align: center;">Ocena użytkownika:</div>
     <div class="rating-display" id="rating-display"></div>
 </div>
 
 <script>
-  // --- ZMIENIONY SKRYPT DLA TOALET ---
+  // --- ZAKTUALIZOWANY SKRYPT DLA TOALET ---
   const toilets = document.querySelectorAll('.toilet');
   const tooltip = document.getElementById('tooltip');
   const tooltipInfo = document.getElementById('tooltip-info');
+  const tooltipImage = document.getElementById('tooltip-image'); // Nowa referencja do obrazka
   const ratingDisplay = document.getElementById('rating-display');
 
   // Obsługa kliknięcia w toaletę
   toilets.forEach(t => {
     t.addEventListener('click', (e) => {
       const info = t.getAttribute('data-info');
-      // Odczytaj hardkodowaną ocenę
       const rating = parseInt(t.getAttribute('data-rating')) || 0; 
+      const imageUrl = t.getAttribute('data-image'); // Pobierz URL zdjęcia
       
       // 1. Zaktualizuj opis
       tooltipInfo.textContent = info;
       
-      // 2. Wygeneruj gwiazdki na podstawie data-rating
+      // 2. Obsługa zdjęcia (NOWY BLOK KODU)
+      if (imageUrl) {
+          tooltipImage.src = imageUrl;
+          tooltipImage.style.display = 'block'; // Pokaż obrazek
+      } else {
+          tooltipImage.src = '';
+          tooltipImage.style.display = 'none'; // Ukryj obrazek, jeśli nie ma linku
+      }
+      
+      // 3. Wygeneruj gwiazdki na podstawie data-rating
       let starsHtml = '';
       const totalStars = 5;
       
       for (let i = 1; i <= totalStars; i++) {
-        // Klasa 'selected' jest dodawana, jeśli numer gwiazdki (i) jest mniejszy lub równy ocenie (rating)
         const starClass = i <= rating ? 'selected' : '';
         starsHtml += `<span class="${starClass}">★</span>`;
       }
       
       ratingDisplay.innerHTML = starsHtml;
 
-      // 3. Pokaż dymek (najpierw ustaw display: block, żeby móc zmierzyć jego szerokość)
+      // 4. Pokaż dymek (najpierw ustaw display: block, żeby móc zmierzyć jego szerokość)
       tooltip.style.display = 'block';
 
-      // 4. Inteligentne pozycjonowanie dymka 
+      // 5. Inteligentne pozycjonowanie dymka 
       
       const tooltipWidth = tooltip.offsetWidth; // Szerokość dymka
       const windowWidth = window.innerWidth;   // Szerokość okna przeglądarki
@@ -295,10 +306,11 @@
     // Ukrywa tooltip, jeśli kliknięto poza kółkiem toalety i poza samym tooltipem
     if (!e.target.classList.contains('toilet') && !tooltip.contains(e.target)) {
       tooltip.style.display = 'none';
+      tooltipImage.style.display = 'none'; // Dodatkowo ukryj obrazek
     }
   });
 
-  // --- SKRYPT DLA ZAKŁADEK (bez zmian) ---
+  // --- SKRYPT DLA ZAKŁADEK (ZAKTUALIZOWANY) ---
   const tabButtons = document.querySelectorAll('.tab-link');
   const tabContents = document.querySelectorAll('.tab-content');
 
@@ -312,6 +324,7 @@
       button.classList.add('active');
       
       tooltip.style.display = 'none';
+      tooltipImage.style.display = 'none'; // Dodatkowo ukryj obrazek przy zmianie zakładki
     });
   });
 </script>
