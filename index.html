@@ -247,66 +247,82 @@
   // Obsługa kliknięcia w toaletę
   toilets.forEach(t => {
     t.addEventListener('click', (e) => {
+      // Zatrzymaj propagację, aby kliknięcie na kółko nie zamknęło dymka od razu
+      e.stopPropagation(); 
+      
       const info = t.getAttribute('data-info');
       const rating = parseInt(t.getAttribute('data-rating')) || 0; 
-      const imageUrl = t.getAttribute('data-image'); // Pobierz URL zdjęcia
+      const imageUrl = t.getAttribute('data-image'); 
       
       // 1. Zaktualizuj opis
       tooltipInfo.textContent = info;
       
-      // 2. Obsługa zdjęcia (NOWY BLOK KODU)
+      // 2. Obsługa zdjęcia
       if (imageUrl) {
           tooltipImage.src = imageUrl;
-          tooltipImage.style.display = 'block'; // Pokaż obrazek
+          tooltipImage.style.display = 'block'; 
       } else {
           tooltipImage.src = '';
-          tooltipImage.style.display = 'none'; // Ukryj obrazek, jeśli nie ma linku
+          tooltipImage.style.display = 'none'; 
       }
       
-      // 3. Wygeneruj gwiazdki na podstawie data-rating
+      // 3. Wygeneruj gwiazdki
       let starsHtml = '';
       const totalStars = 5;
-      
       for (let i = 1; i <= totalStars; i++) {
         const starClass = i <= rating ? 'selected' : '';
         starsHtml += `<span class="${starClass}">★</span>`;
       }
-      
       ratingDisplay.innerHTML = starsHtml;
 
-      // 4. Pokaż dymek (najpierw ustaw display: block, żeby móc zmierzyć jego szerokość)
+      // 4. Pokaż dymek (aby móc zmierzyć jego wymiary)
       tooltip.style.display = 'block';
 
-      // 5. Inteligentne pozycjonowanie dymka 
+      // 5. --- CAŁKOWICIE NOWA, INTELIGENTNA LOGIKA POZYCJONOWANIA ---
       
-      const tooltipWidth = tooltip.offsetWidth; // Szerokość dymka
-      const windowWidth = window.innerWidth;   // Szerokość okna przeglądarki
-      const clickX = e.clientX;                // Pozycja X kliknięcia
-
-      let newLeft = clickX + 10; // Domyślna pozycja (na prawo od kliknięcia)
-
-      // Sprawdź, czy dymek wykracza poza prawą krawędź okna
+      // Wymiary okna i dymka
+      const tooltipWidth = tooltip.offsetWidth;
+      const tooltipHeight = tooltip.offsetHeight;
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      
+      // Pozycja kliknięcia
+      const clickX = e.clientX;
+      const clickY = e.clientY;
+      
+      // --- Logika pozioma (sprawdza lewo/prawo) ---
+      let newLeft = clickX + 15; // Domyślnie na prawo od kursora
       if (newLeft + tooltipWidth + 10 > windowWidth) {
-        // Jeśli tak, przesuń go na lewo od kliknięcia
-        newLeft = clickX - tooltipWidth - 10; 
-        
-        // Dodatkowe sprawdzenie, czy nie wychodzi poza lewą krawędź
+        // Jeśli wychodzi za prawą krawędź, przesuń na lewo
+        newLeft = clickX - tooltipWidth - 15; 
         if (newLeft < 10) {
-            newLeft = 10; // Ustaw stałą pozycję od lewej
+            newLeft = 10; // "Przyklej" do lewej krawędzi
         }
       }
       
-      // Ustaw nową pozycję
-      tooltip.style.top = (e.clientY - 40) + 'px'; 
+      // --- Logika pionowa (sprawdza dół/góra) ---
+      let newTop = clickY + 15; // Domyślnie poniżej kursora
+      if (newTop + tooltipHeight + 10 > windowHeight) {
+        // Jeśli wychodzi za dolną krawędź, przesuń powyżej
+        newTop = clickY - tooltipHeight - 15;
+        if (newTop < 10) {
+            newTop = 10; // "Przyklej" do górnej krawędzi
+        }
+      }
+
+      // Ustaw obliczone pozycje
+      tooltip.style.top = newTop + 'px'; 
       tooltip.style.left = newLeft + 'px';
     });
   });
 
+  // Zamykanie dymka po kliknięciu GDZIEKOLWIEK indziej
   document.addEventListener('click', (e) => {
-    // Ukrywa tooltip, jeśli kliknięto poza kółkiem toalety i poza samym tooltipem
-    if (!e.target.classList.contains('toilet') && !tooltip.contains(e.target)) {
+    // Ukrywa tooltip, jeśli kliknięto poza samym tooltipem
+    // (Kliknięcie na 'toilet' jest już obsługiwane przez e.stopPropagation() powyżej)
+    if (!tooltip.contains(e.target)) {
       tooltip.style.display = 'none';
-      tooltipImage.style.display = 'none'; // Dodatkowo ukryj obrazek
+      tooltipImage.style.display = 'none'; 
     }
   });
 
@@ -323,8 +339,9 @@
       document.getElementById(tabId).classList.add('active');
       button.classList.add('active');
       
+      // Ukryj dymek przy zmianie zakładki
       tooltip.style.display = 'none';
-      tooltipImage.style.display = 'none'; // Dodatkowo ukryj obrazek przy zmianie zakładki
+      tooltipImage.style.display = 'none'; 
     });
   });
 </script>
