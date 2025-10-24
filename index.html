@@ -32,6 +32,8 @@
       border: 2px solid white;
       box-shadow: 0 0 5px rgba(0,0,0,0.4);
     }
+    
+    /* --- CSS dla Dymka (Tooltip) - ZMIENIONY --- */
     .tooltip {
       position: fixed;
       background: white;
@@ -39,9 +41,14 @@
       border: 1px solid #ccc;
       border-radius: 5px;
       display: none;
-      white-space: nowrap;
+      
+      /* ZMIANA: Pozwalamy na zawijanie tekstu i ustawiamy maksymalną szerokość */
+      white-space: normal;
+      word-wrap: break-word; /* Dodatkowe zabezpieczenie łamania słów */
+      max-width: 280px;      /* Maksymalna szerokość dymka */
+      
       z-index: 10;
-      /* ZMIANA: Zwiększony rozmiar czcionki dla lepszej czytelności na urządzeniach mobilnych */
+      /* Utrzymujemy stały rozmiar czcionki */
       font-size: 16px; 
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       text-align: left;
@@ -66,23 +73,20 @@
     }
 
 
-    /* --- CSS dla Zakładek (ZMIENIONY) --- */
+    /* --- CSS dla Zakładek (Poprzednia zmiana) --- */
     .tab-buttons {
       margin: 20px 0 0 0;
       border-bottom: 1px solid #ccc;
       display: inline-block;
     }
     .tab-link {
-      /* ZMIANA: Ciemniejsze tło dla nieaktywnych zakładek */
       background-color: #e9e9e9; 
       border: 1px solid #ccc;
       border-bottom: none;
       outline: none;
       cursor: pointer;
-      /* ZMIANA: Zwiększony padding dla większego przycisku */
       padding: 14px 20px; 
       transition: 0.3s;
-      /* ZMIANA: Zwiększona czcionka i lekka grubość */
       font-size: 18px; 
       font-weight: 500;
       border-radius: 5px 5px 0 0;
@@ -92,15 +96,11 @@
       background-color: #ddd;
     }
     .tab-link.active {
-      /* Aktywna zakładka ma białe tło, aby połączyć się z treścią */
       background-color: white; 
       border-bottom: 1px solid white;
-      /* ZMIANA: Wyraźniejsze pogrubienie */
       font-weight: 700; 
-      /* ZMIANA: Dodanie górnej krawędzi dla wyróżnienia (kolor niebieski z kropek toalet) */
       border-top: 3px solid blue;
-      /* ZMIANA: Korekta paddingu, aby uwzględnić nową krawędź */
-      padding-top: 11px; /* (14px - 3px = 11px) */
+      padding-top: 11px;
     }
     .tab-content {
       display: none;
