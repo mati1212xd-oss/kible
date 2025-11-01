@@ -3,237 +3,389 @@
 <head>
   <meta charset="UTF-8">
   <title>Mapa toalet WUM</title>
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
   <style>
+    /* --- :ROOT - Definicja nowoczesnej palety i zmiennych --- */
+    :root {
+      --font-primary: 'Roboto', Arial, sans-serif;
+      --color-primary: #0056b3; /* Główny kolor akcentu (nowoczesny błękit) */
+      --color-primary-light: #e8f0fe; /* Jasny błękit tła */
+      --color-text: #212529; /* Ciemny kolor tekstu dla czytelności */
+      --color-text-light: #555; /* Jaśniejszy tekst */
+      --color-bg: #f8f9fa; /* Bardzo jasne tło strony */
+      --color-card-bg: #ffffff; /* Tło dla "kart" (zakładki, dymek) */
+      --color-border: #dee2e6; /* Kolor obramowań */
+      --color-star: #ffc107; /* Kolor gwiazdek (złoty) */
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --border-radius: 8px; /* Standardowe zaokrąglenie */
+    }
+
+    /* --- Globalne style i reset --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: var(--font-primary);
       text-align: center;
-      background: #f9f9f9;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
     }
-    /* --- CSS dla nagłówka i tła zakładek --- */
-    .header-container {
-        background-color: #e8eef3; /* Jasny niebiesko-szary kolor tła */
-        padding: 10px 10px 0 10px;
-        border-radius: 10px 10px 0 0;
-    }
-    body > h2 {
-        margin-top: 0; /* Usunięcie domyślnego marginesu h2 */
-    }
-    
-    /* --- Istniejący CSS dla Mapy/Toalet --- */
-    .map-container {
-      position: relative;
-      display: inline-block;
-    }
-    .map-container img {
+
+    img {
       max-width: 100%;
       height: auto;
-      border: 2px solid #ccc;
-      border-radius: 10px;
     }
-    .toilet {
-      position: absolute;
-      /* 2. ZMNIEJSZONY ROZMIAR KÓŁEK (BYŁO 30px) */
-      width: 20px;
-      height: 20px;
-      background: blue;
-      border-radius: 50%;
-      cursor: pointer;
-      transform: translate(-50%, -50%);
-      border: 2px solid white;
-      box-shadow: 0 0 5px rgba(0,0,0,0.4);
+
+    /* --- Główny kontener strony --- */
+    .page-container {
+      max-width: 1000px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
     }
     
-    /* --- CSS dla Dymka (Tooltip) - ZMIENIONY --- */
-    .tooltip {
-      position: fixed;
-      background: white;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      display: none;
-      
-      white-space: normal;
-      word-wrap: break-word; 
-      max-width: 280px;      
-      
-      z-index: 10;
-      /* 3. ZMNIEJSZONA CZCIONKA DYMKU (BYŁO 24px) */
-      font-size: 16px; 
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    /* --- Nagłówek --- */
+    header {
       text-align: left;
+      margin-bottom: 1rem;
     }
-
-    /* --- CSS dla Gwiazdek (Tylko wyświetlanie) --- */
-    .rating-display {
-        margin-top: 5px;
-        text-align: center;
-        color: #ccc;
+    
+    header h2 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: var(--color-text);
+        margin-bottom: 0.5rem;
     }
-    .rating-display > span {
-        display: inline-block;
-        /* 4. ZMNIEJSZONA CZCIONKA GWIAZDEK (BYŁO 20px) */
-        font-size: 18px;
-        width: 1.1em;
+    
+    /* --- Nowoczesne Zakładki (Tabs) --- */
+    nav.tab-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 2px solid var(--color-border);
     }
-    /* Klasa dla wypełnionych gwiazdek */
-    .rating-display > span.selected {
-        color: gold;
-    }
-
-
-    /* --- CSS dla Zakładek --- */
-    .tab-buttons {
-      margin: 20px 0 0 0;
-      border-bottom: 1px solid #ccc;
-      display: inline-block;
-      margin-top: 0; 
-    }
+    
     .tab-link {
-      background-color: #e9e9e9; 
-      border: 1px solid #ccc;
-      border-bottom: none;
+      background-color: transparent; 
+      border: none;
+      border-bottom: 3px solid transparent;
       outline: none;
       cursor: pointer;
-      padding: 14px 20px; 
-      transition: 0.3s;
-      font-size: 18px; 
+      padding: 1rem 1.5rem; 
+      transition: all 0.3s ease;
+      font-size: 1.1rem; 
       font-weight: 500;
-      border-radius: 5px 5px 0 0;
-      margin-right: -1px;
+      color: var(--color-text-light);
+      margin-right: 0.25rem;
+      margin-bottom: -2px; /* Nakłada się na border-bottom nav */
     }
+    
     .tab-link:hover:not(.active) {
-      background-color: #ddd;
+      background-color: var(--color-primary-light);
+      color: var(--color-primary);
     }
+    
     .tab-link.active {
-      background-color: white; 
-      border-bottom: 1px solid white; 
+      color: var(--color-primary);
       font-weight: 700; 
-      border-top: 3px solid blue;
-      padding-top: 11px;
+      border-bottom-color: var(--color-primary);
     }
+    
+    /* --- Zawartość Zakładek --- */
     .tab-content {
       display: none;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 0 0 10px 10px;
-      background-color: white;
+      padding: 1.5rem;
+      border: none;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      background-color: var(--color-card-bg);
       text-align: center;
-      border-top: none; 
-      margin-top: -1px;
-    }
-    /* --- REGUŁA DLA TEKSTU W ZAKŁADKACH --- */
-    .tab-content p {
-        font-size: 17px; /* Ustawia stały rozmiar czcionki dla <p> w zakładkach */
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
+      box-shadow: var(--shadow-sm);
     }
     
     .tab-content.active {
       display: block;
     }
-    .legend-list {
-        text-align: left;
+    
+    .tab-content p {
+        font-size: 1rem;
+        color: var(--color-text-light);
+        margin-bottom: 1rem;
+    }
+    
+    /* Style dla treści w zakładkach Wolska/Litewska */
+    .tab-content h3 {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+    .tab-content hr {
+        border: none;
+        height: 1px;
+        background-color: var(--color-border);
+        margin: 1rem 0;
+    }
+    .content-box {
+      text-align: left; 
+      display: inline-flex; 
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+      max-width: 100%;
+    }
+    .content-box p {
+        margin-bottom: 0.25rem;
+        font-size: 1.05rem;
+        color: var(--color-text);
+    }
+
+
+    /* --- Mapa i Markery (Toalety) --- */
+    .map-container {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .map-container img {
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      display: block; /* Usuwa odstęp pod obrazkiem */
+    }
+    
+    .toilet {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: var(--color-primary);
+      border-radius: 50%;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      border: 2px solid white;
+      /* Nowoczesny cień i animacja */
+      box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.3);
+      transition: transform 0.2s ease;
+      z-index: 2;
+    }
+    
+    .toilet:hover {
+      transform: translate(-50%, -50%) scale(1.25);
+    }
+    
+    /* Animacja pulsowania */
+    .toilet::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--color-primary);
+      transform: translate(-50%, -50%);
+      animation: pulse 2s infinite ease-out;
+      z-index: -1;
+    }
+
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.7; }
+      70% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+    }
+    
+    /* --- Nowoczesny Tooltip (Dymek) --- */
+    .tooltip {
+      position: fixed;
+      /* Używamy flex dla ładnego ułożenia treści w środku */
+      display: none; /* Przełączane przez JS */
+      flex-direction: column;
+      gap: 0.75rem; /* Odstępy między dziećmi */
+      
+      background: var(--color-card-bg);
+      padding: 1rem;
+      border: none;
+      border-radius: var(--border-radius);
+      
+      white-space: normal;
+      word-wrap: break-word; 
+      max-width: 300px;      
+      
+      z-index: 1000; /* Zawsze na wierzchu */
+      font-size: 0.95rem; 
+      box-shadow: var(--shadow-md); /* Nowoczesny cień */
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    #tooltip-info {
+        color: var(--color-text);
+        font-size: 1rem;
+    }
+    
+    #tooltip-image {
+        border-radius: calc(var(--border-radius) - 4px); /* Wewnętrzne zaokrąglenie */
+    }
+
+    .tooltip hr {
+        margin: 0; /* Usunięte, bo mamy gap */
+        border: none;
+        height: 1px;
+        background-color: var(--color-border);
+    }
+
+    /* --- Gwiazdki Oceny --- */
+    .rating-display {
+        margin-top: 0;
+        text-align: center;
+        color: var(--color-border);
+    }
+    
+    .rating-display > span {
         display: inline-block;
-        list-style-position: inside;
-        padding-left: 0;
+        font-size: 1.5rem; /* Większe, czytelniejsze gwiazdki */
+        width: 1.1em;
+        line-height: 1;
     }
-    .legend-list li {
-        margin-bottom: 5px;
+    
+    .rating-display > span.selected {
+        color: var(--color-star);
     }
+    
+    /* --- Responsywność --- */
+    @media (max-width: 600px) {
+      html { font-size: 15px; }
+      .page-container {
+          margin-top: 0;
+          padding: 0.5rem;
+      }
+      header {
+          padding: 0.5rem;
+      }
+      header h2 {
+          font-size: 1.8rem;
+      }
+      nav.tab-buttons {
+          justify-content: flex-start; /* Pozwala na scroll w poziomie */
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+      }
+      .tab-link {
+          padding: 0.75rem 1rem;
+          font-size: 1rem;
+          white-space: nowrap;
+      }
+      .tab-content {
+          padding: 1rem;
+      }
+      .tooltip {
+          /* JS jest świadomy okna, więc nie trzeba tu wiele zmieniać */
+          max-width: calc(100vw - 2rem);
+      }
+    }
+    
   </style>
 </head>
 <body>
 
-<div class="header-container">
-  <h2>Mapa toalet WUM – Kampusy</h2>
+<main class="page-container">
 
-  <div class="tab-buttons">
+  <header>
+    <h2>Mapa toalet WUM – Kampusy</h2>
+  </header>
+
+  <nav class="tab-buttons">
     <button class="tab-link active" data-tab="banacha">Kampus Banacha</button>
     <button class="tab-link" data-tab="wolska">Wolska</button>
     <button class="tab-link" data-tab="lindleya">Lindleya</button>
     <button class="tab-link" data-tab="litewska">Litewska</button>
-  </div>
-</div>
+  </nav>
 
-<div id="banacha" class="tab-content active">
-  <p>Kliknij w niebieskie kółko, aby zobaczyć informację o toalecie.</p>
-  <div class="map-container" id="map">
-    <img src="mapa_wum.png" alt="Mapa WUM">
+  <div id="banacha" class="tab-content active">
+    <p>Kliknij w pulsujące kółko, aby zobaczyć informację o toalecie.</p>
+    <div class="map-container" id="map">
+      <img src="mapa_wum.png" alt="Mapa WUM">
 
-    <div class="toilet" data-toilet-id="toilet_farmacja" data-rating="2"
-         style="top: 8.64%; left: 78.39%;" 
-         data-info="Farmacja (nr 9): Słabe, średniowieczne toalety w piwnicach"></div>
+      <div class="toilet" data-toilet-id="toilet_farmacja" data-rating="2"
+           style="top: 8.64%; left: 78.39%;" 
+           data-info="Farmacja (nr 9): Słabe, średniowieczne toalety w piwnicach"></div>
 
-    <div class="toilet" data-toilet-id="toilet_11" data-rating="4"
-         style="top: 20.64%; left: 76.17%;" 
-         data-info="UCS (nr 11): Dużo toalet 1-osobowych nowoczesnych. Na ostatnim piętrze duże toalety wieloosobowe"
-         data-image="IMG_0483.jpg"></div>
+      <div class="toilet" data-toilet-id="toilet_11" data-rating="4"
+           style="top: 20.64%; left: 76.17%;" 
+           data-info="UCS (nr 11): Dużo toalet 1-osobowych nowoczesnych. Na ostatnim piętrze duże toalety wieloosobowe"
+           data-image="IMG_0483.jpg"></div>
 
-    <div class="toilet" data-toilet-id="toilet_2" data-rating="0"
-         style="top: 41.25%; left: 63.03%;" 
-         data-info="CD (nr 2): Jedna na lewo od wejścia, druga na -1 przy windach. Słabe, dużo ludzi."></div>
+      <div class="toilet" data-toilet-id="toilet_2" data-rating="0"
+           style="top: 41.25%; left: 63.03%;" 
+           data-info="CD (nr 2): Jedna na lewo od wejścia, druga na -1 przy windach. Słabe, dużo ludzi."></div>
 
-    <div class="toilet" data-toilet-id="toilet_7a" data-rating="3"
-         style="top: 25.80%; left: 39.17%;" 
-         data-info="zaklad patomorfologii (nr 7): Dobra toaleta na 3 piętrze."></div>
+      <div class="toilet" data-toilet-id="toilet_7a" data-rating="3"
+           style="top: 25.80%; left: 39.17%;" 
+           data-info="zaklad patomorfologii (nr 7): Dobra toaleta na 3 piętrze."></div>
 
-    <div class="toilet" data-toilet-id="toilet_14" data-rating="4"
-         style="top: 24.89%; left: 26.03%;" 
-         data-info="CSM (nr 14): Duże toalety w szatniach w podziemiach, brak ludzi i brak zasięgu. Na 2 piętrze też spoko"
-         data-image="IMG_0788.jpg"></div>
+      <div class="toilet" data-toilet-id="toilet_14" data-rating="4"
+           style="top: 24.89%; left: 26.03%;" 
+           data-info="CSM (nr 14): Duże toalety w szatniach w podziemiach, brak ludzi i brak zasięgu. Na 2 piętrze też spoko"
+           data-image="IMG_0788.jpg"></div>
 
-    <div class="toilet" data-toilet-id="toilet_13" data-rating="5"
-         style="top: 42.86%; left: 43.32%;" 
-         data-info="CSR (nr 13): Fajne toalety, dużo ich na każdym piętrze, mało ludzi, ale otwarte"></div>
-  </div>
-</div>
-
-<div id="wolska" class="tab-content">
-  <h3>Szpital Wolska</h3>
-  <div style="text-align: left; display: inline-block;">
-      <p>Bardzo fajne toalety na 1 piętrze w budynku gdzie są sale seminaryjne, mało ludzi.</p>
-      <p>Fajna toaleta na prawo za szatnią w budynku szpitala</p>
-      <hr style="margin: 10px 0;">
-      <div class="rating-display" style="text-align: left;"> <span class="selected">★</span><span class="selected">★</span><span class="selected">★</span><span class="selected">★</span><span class="selected">★</span>
-      </div>
-  </div>
-</div>
-
-<div id="lindleya" class="tab-content">
-  <h3>Kampus Lindleya</h3>
-  <div class="map-container">
-    <img src="mapa-lindleya.png" alt="Mapa Kampusu Lindleya">
-    
-    <div class="toilet" data-toilet-id="toilet_lindleya_1" data-rating="3"
-         style="top: 36.45%; left: 34.94%;" 
-         data-info="(NR 10) Totalny PRL, spłukiwanie sznurkiem zwisającym z góry. Jedna w szatni studenckiej w podziemiach, druga na wprost od recepcji od wejścia. Jednoosobowe, ta koło recepcji lepsza."
-         data-image="IMG_0702.jpg"></div>
-         
-  </div>
-</div>
-
-<div id="litewska" class="tab-content">
-  <h3>Kampus Litewska</h3>
-  <div style="text-align: left; display: inline-block;">
-    <p>Dobre, nowoczesne toalety na każdym piętrze, dosyć mało ludzi.</p>
-    <hr style="margin: 10px 0;">
-    <div class="rating-display" style="text-align: left;"> 
-        <span class="selected">★</span>
-        <span class="selected">★</span>
-        <span class="selected">★</span>
-        <span class="selected">★</span>
-        <span>★</span>
+      <div class="toilet" data-toilet-id="toilet_13" data-rating="5"
+           style="top: 42.86%; left: 43.32%;" 
+           data-info="CSR (nr 13): Fajne toalety, dużo ich na każdym piętrze, mało ludzi, ale otwarte"></div>
     </div>
   </div>
-</div>
 
-<div class="tooltip" id="tooltip">
+  <div id="wolska" class="tab-content">
+    <h3>Szpital Wolska</h3>
+    <div class="content-box">
+        <p>Bardzo fajne toalety na 1 piętrze w budynku gdzie są sale seminaryjne, mało ludzi.</p>
+        <p>Fajna toaleta na prawo za szatnią w budynku szpitala</p>
+        <hr>
+        <div class="rating-display" style="text-align: left;"> <span class="selected">★</span><span class="selected">★</span><span class="selected">★</span><span class="selected">★</span><span class="selected">★</span>
+        </div>
+    </div>
+  </div>
+
+  <div id="lindleya" class="tab-content">
+    <h3>Kampus Lindleya</h3>
+    <div class="map-container">
+      <img src="mapa-lindleya.png" alt="Mapa Kampusu Lindleya">
+      
+      <div class="toilet" data-toilet-id="toilet_lindleya_1" data-rating="3"
+           style="top: 36.45%; left: 34.94%;" 
+           data-info="(NR 10) Totalny PRL, spłukiwanie sznurkiem zwisającym z góry. Jedna w szatni studenckiej w podziemiach, druga na wprost od recepcji od wejścia. Jednoosobowe, ta koło recepcji lepsza."
+           data-image="IMG_0702.jpg"></div>
+           
+    </div>
+  </div>
+
+  <div id="litewska" class="tab-content">
+    <h3>Kampus Litewska</h3>
+    <div class="content-box">
+      <p>Dobre, nowoczesne toalety na każdym piętrze, dosyć mało ludzi.</p>
+      <hr>
+      <div class="rating-display" style="text-align: left;"> 
+          <span class="selected">★</span>
+          <span class="selected">★</span>
+          <span class="selected">★</span>
+          <span class="selected">★</span>
+          <span>★</span>
+      </div>
+    </div>
+  </div>
+
+</main> <div class="tooltip" id="tooltip">
     <div id="tooltip-info"></div>
-    <img id="tooltip-image" src="" alt="Zdjęcie toalety" style="max-width: 100%; height: auto; display: none; margin-top: 10px; border-radius: 5px;">
-    <hr style="margin: 5px 0; border-top: 1px solid #eee;">
+    <img id="tooltip-image" src="" alt="Zdjęcie toalety" style="max-width: 100%; height: auto; display: none; margin-top: 0;">
+    <hr style="margin: 0; border-top: none;">
     <div style="font-weight: bold; text-align: center;">Ocena użytkownika:</div>
     <div class="rating-display" id="rating-display"></div>
 </div>
@@ -243,7 +395,7 @@
   const toilets = document.querySelectorAll('.toilet');
   const tooltip = document.getElementById('tooltip');
   const tooltipInfo = document.getElementById('tooltip-info');
-  const tooltipImage = document.getElementById('tooltip-image'); // Nowa referencja do obrazka
+  const tooltipImage = document.getElementById('tooltip-image');
   const ratingDisplay = document.getElementById('rating-display');
 
   // Obsługa kliknięcia w toaletę
@@ -278,41 +430,35 @@
       ratingDisplay.innerHTML = starsHtml;
 
       // 4. Pokaż dymek (aby móc zmierzyć jego wymiary)
-      tooltip.style.display = 'block';
+      //    ZMIANA: Używamy 'flex' zamiast 'block' dla lepszego layoutu wewnątrz
+      tooltip.style.display = 'flex'; 
 
-      // 5. --- INTELIGENTNA LOGIKA POZYCJONOWANIA ---
+      // 5. --- INTELIGENTNA LOGIKA POZYCJONOWANIA (BEZ ZMIAN, JEST DOBRA) ---
       
-      // Wymiary okna i dymka
       const tooltipWidth = tooltip.offsetWidth;
       const tooltipHeight = tooltip.offsetHeight;
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       
-      // Pozycja kliknięcia
       const clickX = e.clientX;
       const clickY = e.clientY;
       
-      // --- Logika pozioma (sprawdza lewo/prawo) ---
-      let newLeft = clickX + 15; // Domyślnie na prawo od kursora
+      let newLeft = clickX + 15; 
       if (newLeft + tooltipWidth + 10 > windowWidth) {
-        // Jeśli wychodzi za prawą krawędź, przesuń na lewo
         newLeft = clickX - tooltipWidth - 15; 
         if (newLeft < 10) {
-            newLeft = 10; // "Przyklej" do lewej krawędzi
+            newLeft = 10;
         }
       }
       
-      // --- Logika pionowa (sprawdza dół/góra) ---
-      let newTop = clickY + 15; // Domyślnie poniżej kursora
+      let newTop = clickY + 15;
       if (newTop + tooltipHeight + 10 > windowHeight) {
-        // Jeśli wychodzi za dolną krawędź, przesuń powyżej
         newTop = clickY - tooltipHeight - 15;
         if (newTop < 10) {
-            newTop = 10; // "Przyklej" do górnej krawędzi
+            newTop = 10;
         }
       }
 
-      // Ustaw obliczone pozycje
       tooltip.style.top = newTop + 'px'; 
       tooltip.style.left = newLeft + 'px';
     });
@@ -321,13 +467,22 @@
   // Zamykanie dymka po kliknięciu GDZIEKOLWIEK indziej
   document.addEventListener('click', (e) => {
     // Ukrywa tooltip, jeśli kliknięto poza samym tooltipem
+    // Ta logika jest poprawna, .contains() działa
     if (!tooltip.contains(e.target)) {
       tooltip.style.display = 'none';
       tooltipImage.style.display = 'none'; 
     }
   });
+  
+  // Zapobiegaj zamykaniu dymka po kliknięciu W ŚRODKU dymka
+  // (Chociaż !tooltip.contains(e.target) już to załatwia,
+  //  to jest dobra praktyka na wszelki wypadek)
+  tooltip.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
 
-  // --- SKRYPT DLA ZAKŁADEK (ZAKTUALIZOWANY) ---
+
+  // --- SKRYPT DLA ZAKŁADEK (BEZ ZMIAN) ---
   const tabButtons = document.querySelectorAll('.tab-link');
   const tabContents = document.querySelectorAll('.tab-content');
 
