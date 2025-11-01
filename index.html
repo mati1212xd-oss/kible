@@ -10,23 +10,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   
   <style>
-    /* --- :ROOT - Definicja nowoczesnej palety i zmiennych --- */
     :root {
       --font-primary: 'Roboto', Arial, sans-serif;
-      --color-primary: #0056b3; /* Główny kolor akcentu (nowoczesny błękit) */
-      --color-primary-light: #e8f0fe; /* Jasny błękit tła */
-      --color-text: #212529; /* Ciemny kolor tekstu dla czytelności */
-      --color-text-light: #555; /* Jaśniejszy tekst */
-      --color-bg: #f8f9fa; /* Bardzo jasne tło strony */
-      --color-card-bg: #ffffff; /* Tło dla "kart" (zakładki, dymek) */
-      --color-border: #dee2e6; /* Kolor obramowań */
-      --color-star: #ffc107; /* Kolor gwiazdek (złoty) */
+      --color-primary: #0056b3; 
+      --color-primary-light: #e8f0fe; 
+      --color-text: #212529; 
+      --color-text-light: #555; 
+      --color-bg: #f8f9fa; 
+      --color-card-bg: #ffffff; 
+      --color-border: #dee2e6; 
+      --color-star: #ffc107; 
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-      --border-radius: 8px; /* Standardowe zaokrąglenie */
+      --border-radius: 8px; 
     }
 
-    /* --- Globalne style i reset --- */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -50,14 +48,12 @@
       height: auto;
     }
 
-    /* --- Główny kontener strony --- */
     .page-container {
       max-width: 1000px;
       margin: 1.5rem auto;
       padding: 0 1rem;
     }
     
-    /* --- Nagłówek --- */
     header {
       text-align: left;
       margin-bottom: 1rem;
@@ -70,7 +66,6 @@
         margin-bottom: 0.5rem;
     }
     
-    /* --- Nowoczesne Zakładki (Tabs) --- */
     nav.tab-buttons {
       display: flex;
       flex-wrap: wrap;
@@ -89,7 +84,7 @@
       font-weight: 500;
       color: var(--color-text-light);
       margin-right: 0.25rem;
-      margin-bottom: -2px; /* Nakłada się na border-bottom nav */
+      margin-bottom: -2px; 
     }
     
     .tab-link:hover:not(.active) {
@@ -103,7 +98,6 @@
       border-bottom-color: var(--color-primary);
     }
     
-    /* --- Zawartość Zakładek --- */
     .tab-content {
       display: none;
       padding: 1.5rem;
@@ -124,7 +118,6 @@
         margin-bottom: 1rem;
     }
     
-    /* Style dla treści w zakładkach Wolska/Litewska */
     .tab-content h3 {
         margin-bottom: 1rem;
         font-size: 1.5rem;
@@ -149,8 +142,6 @@
         color: var(--color-text);
     }
 
-
-    /* --- Mapa i Markery (Toalety) --- */
     .map-container {
       position: relative;
       display: inline-block;
@@ -159,7 +150,7 @@
     .map-container img {
       border-radius: var(--border-radius);
       box-shadow: var(--shadow-sm);
-      display: block; /* Usuwa odstęp pod obrazkiem */
+      display: block; 
     }
     
     .toilet {
@@ -171,7 +162,6 @@
       cursor: pointer;
       transform: translate(-50%, -50%);
       border: 2px solid white;
-      /* Nowoczesny cień i animacja */
       box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.3);
       transition: transform 0.2s ease;
       z-index: 2;
@@ -181,7 +171,6 @@
       transform: translate(-50%, -50%) scale(1.25);
     }
     
-    /* Animacja pulsowania */
     .toilet::before {
       content: '';
       position: absolute;
@@ -202,13 +191,11 @@
       100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
     }
     
-    /* --- Nowoczesny Tooltip (Dymek) --- */
     .tooltip {
       position: fixed;
-      /* Używamy flex dla ładnego ułożenia treści w środku */
-      display: none; /* Przełączane przez JS */
+      display: none; 
       flex-direction: column;
-      gap: 0.75rem; /* Odstępy między dziećmi */
+      gap: 0.75rem; 
       
       background: var(--color-card-bg);
       padding: 1rem;
@@ -219,9 +206,9 @@
       word-wrap: break-word; 
       max-width: 300px;      
       
-      z-index: 1000; /* Zawsze na wierzchu */
+      z-index: 1000; 
       font-size: 0.95rem; 
-      box-shadow: var(--shadow-md); /* Nowoczesny cień */
+      box-shadow: var(--shadow-md); 
       text-align: left;
       line-height: 1.5;
     }
@@ -232,17 +219,21 @@
     }
     
     #tooltip-image {
-        border-radius: calc(var(--border-radius) - 4px); /* Wewnętrzne zaokrąglenie */
+        border-radius: calc(var(--border-radius) - 4px);
+        /* --- POPRAWKA (Problem 1) --- */
+        display: none; /* Domyślnie ukryty, zarządzany przez JS */
+        max-height: 40vh; /* Ogranicza wysokość obrazka */
+        object-fit: cover; /* Zapobiega zniekształceniom */
+        width: 100%; /* Wypełnia kontener */
     }
 
     .tooltip hr {
-        margin: 0; /* Usunięte, bo mamy gap */
+        margin: 0; 
         border: none;
         height: 1px;
         background-color: var(--color-border);
     }
 
-    /* --- Gwiazdki Oceny --- */
     .rating-display {
         margin-top: 0;
         text-align: center;
@@ -251,7 +242,7 @@
     
     .rating-display > span {
         display: inline-block;
-        font-size: 1.5rem; /* Większe, czytelniejsze gwiazdki */
+        font-size: 1.5rem; 
         width: 1.1em;
         line-height: 1;
     }
@@ -274,7 +265,7 @@
           font-size: 1.8rem;
       }
       nav.tab-buttons {
-          justify-content: flex-start; /* Pozwala na scroll w poziomie */
+          justify-content: flex-start; 
           flex-wrap: nowrap;
           overflow-x: auto;
           -webkit-overflow-scrolling: touch;
@@ -288,8 +279,10 @@
           padding: 1rem;
       }
       .tooltip {
-          /* JS jest świadomy okna, więc nie trzeba tu wiele zmieniać */
           max-width: calc(100vw - 2rem);
+          /* --- POPRAWKA (Problem 1) --- */
+          max-height: calc(100vh - 4rem); /* Ograniczenie wysokości dymka */
+          overflow-y: auto; /* Dymek staje się przewijalny, jeśli treść jest za długa */
       }
     }
     
@@ -314,29 +307,23 @@
     <p>Kliknij w pulsujące kółko, aby zobaczyć informację o toalecie.</p>
     <div class="map-container" id="map">
       <img src="mapa_wum.png" alt="Mapa WUM">
-
       <div class="toilet" data-toilet-id="toilet_farmacja" data-rating="2"
            style="top: 8.64%; left: 78.39%;" 
            data-info="Farmacja (nr 9): Słabe, średniowieczne toalety w piwnicach"></div>
-
       <div class="toilet" data-toilet-id="toilet_11" data-rating="4"
            style="top: 20.64%; left: 76.17%;" 
            data-info="UCS (nr 11): Dużo toalet 1-osobowych nowoczesnych. Na ostatnim piętrze duże toalety wieloosobowe"
            data-image="IMG_0483.jpg"></div>
-
       <div class="toilet" data-toilet-id="toilet_2" data-rating="0"
            style="top: 41.25%; left: 63.03%;" 
            data-info="CD (nr 2): Jedna na lewo od wejścia, druga na -1 przy windach. Słabe, dużo ludzi."></div>
-
       <div class="toilet" data-toilet-id="toilet_7a" data-rating="3"
            style="top: 25.80%; left: 39.17%;" 
            data-info="zaklad patomorfologii (nr 7): Dobra toaleta na 3 piętrze."></div>
-
       <div class="toilet" data-toilet-id="toilet_14" data-rating="4"
            style="top: 24.89%; left: 26.03%;" 
            data-info="CSM (nr 14): Duże toalety w szatniach w podziemiach, brak ludzi i brak zasięgu. Na 2 piętrze też spoko"
            data-image="IMG_0788.jpg"></div>
-
       <div class="toilet" data-toilet-id="toilet_13" data-rating="5"
            style="top: 42.86%; left: 43.32%;" 
            data-info="CSR (nr 13): Fajne toalety, dużo ich na każdym piętrze, mało ludzi, ale otwarte"></div>
@@ -358,12 +345,10 @@
     <h3>Kampus Lindleya</h3>
     <div class="map-container">
       <img src="mapa-lindleya.png" alt="Mapa Kampusu Lindleya">
-      
       <div class="toilet" data-toilet-id="toilet_lindleya_1" data-rating="3"
            style="top: 36.45%; left: 34.94%;" 
            data-info="(NR 10) Totalny PRL, spłukiwanie sznurkiem zwisającym z góry. Jedna w szatni studenckiej w podziemiach, druga na wprost od recepcji od wejścia. Jednoosobowe, ta koło recepcji lepsza."
            data-image="IMG_0702.jpg"></div>
-           
     </div>
   </div>
 
@@ -382,45 +367,75 @@
     </div>
   </div>
 
-</main> <div class="tooltip" id="tooltip">
+</main> 
+
+<div class="tooltip" id="tooltip">
     <div id="tooltip-info"></div>
-    <img id="tooltip-image" src="" alt="Zdjęcie toalety" style="max-width: 100%; height: auto; display: none; margin-top: 0;">
-    <hr style="margin: 0; border-top: none;">
+    <img id="tooltip-image" src="" alt="Zdjęcie toalety">
+    <hr>
     <div style="font-weight: bold; text-align: center;">Ocena użytkownika:</div>
     <div class="rating-display" id="rating-display"></div>
 </div>
 
 <script>
-  // --- ZAKTUALIZOWANY SKRYPT DLA TOALET ---
+  // --- ZMIENIONY SKRYPT (Problem 2) ---
   const toilets = document.querySelectorAll('.toilet');
   const tooltip = document.getElementById('tooltip');
   const tooltipInfo = document.getElementById('tooltip-info');
   const tooltipImage = document.getElementById('tooltip-image');
   const ratingDisplay = document.getElementById('rating-display');
 
-  // Obsługa kliknięcia w toaletę
+  // --- FUNKCJA DO POZYCJONOWANIA DYMKA ---
+  function positionTooltip(clickX, clickY) {
+    // Ta funkcja musi być wywołana PO tym, jak tooltip stał się widoczny,
+    // aby offsetWidth i offsetHeight nie były równe 0.
+    const tooltipWidth = tooltip.offsetWidth;
+    const tooltipHeight = tooltip.offsetHeight;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    let newLeft = clickX + 15; 
+    if (newLeft + tooltipWidth + 10 > windowWidth) {
+      newLeft = clickX - tooltipWidth - 15; 
+      if (newLeft < 10) {
+          newLeft = 10;
+      }
+    }
+    
+    let newTop = clickY + 15;
+    if (newTop + tooltipHeight + 10 > windowHeight) {
+      newTop = clickY - tooltipHeight - 15;
+      if (newTop < 10) {
+          newTop = 10;
+      }
+    }
+
+    tooltip.style.top = newTop + 'px'; 
+    tooltip.style.left = newLeft + 'px';
+  }
+
+  // --- FUNKCJA DO CHOWANIA DYMKA ---
+  const hideTooltip = () => {
+    tooltip.style.display = 'none';
+    tooltipImage.style.display = 'none'; // Ukryj element obrazka
+    tooltipImage.src = ''; // Wyczyść źródło, aby zatrzymać ładowanie
+    tooltipImage.onload = null; // Usuń listener, aby uniknąć błędów
+  };
+
+  // --- OBSŁUGA KLIKNIĘCIA W TOALETĘ (NOWA LOGIKA) ---
   toilets.forEach(t => {
     t.addEventListener('click', (e) => {
-      // Zatrzymaj propagację, aby kliknięcie na kółko nie zamknęło dymka od razu
       e.stopPropagation(); 
       
       const info = t.getAttribute('data-info');
       const rating = parseInt(t.getAttribute('data-rating')) || 0; 
       const imageUrl = t.getAttribute('data-image'); 
+      const clickX = e.clientX;
+      const clickY = e.clientY;
       
-      // 1. Zaktualizuj opis
+      // 1. Zaktualizuj tekst i gwiazdki (to jest szybkie)
       tooltipInfo.textContent = info;
       
-      // 2. Obsługa zdjęcia
-      if (imageUrl) {
-          tooltipImage.src = imageUrl;
-          tooltipImage.style.display = 'block'; 
-      } else {
-          tooltipImage.src = '';
-          tooltipImage.style.display = 'none'; 
-      }
-      
-      // 3. Wygeneruj gwiazdki
       let starsHtml = '';
       const totalStars = 5;
       for (let i = 1; i <= totalStars; i++) {
@@ -429,60 +444,45 @@
       }
       ratingDisplay.innerHTML = starsHtml;
 
-      // 4. Pokaż dymek (aby móc zmierzyć jego wymiary)
-      //    ZMIANA: Używamy 'flex' zamiast 'block' dla lepszego layoutu wewnątrz
-      tooltip.style.display = 'flex'; 
+      // 2. Obsługa obrazka (to jest wolne)
+      if (imageUrl) {
+        // Ustaw funkcję, która ma się wykonać PO załadowaniu obrazka
+        tooltipImage.onload = () => {
+          tooltipImage.style.display = 'block'; // Pokaż element obrazka
+          tooltip.style.display = 'flex'; // Pokaż dymek
+          positionTooltip(clickX, clickY); // Oblicz pozycję
+          tooltipImage.onload = null; // Wyczyść listener
+        };
+        
+        // Ustaw źródło obrazka (co rozpoczyna ładowanie)
+        tooltipImage.src = imageUrl;
 
-      // 5. --- INTELIGENTNA LOGIKA POZYCJONOWANIA (BEZ ZMIAN, JEST DOBRA) ---
-      
-      const tooltipWidth = tooltip.offsetWidth;
-      const tooltipHeight = tooltip.offsetHeight;
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
-      
-      const clickX = e.clientX;
-      const clickY = e.clientY;
-      
-      let newLeft = clickX + 15; 
-      if (newLeft + tooltipWidth + 10 > windowWidth) {
-        newLeft = clickX - tooltipWidth - 15; 
-        if (newLeft < 10) {
-            newLeft = 10;
+        // Obsługa obrazków z pamięci podręcznej (cache)
+        // Jeśli obrazek jest 'complete', ręcznie wywołaj 'onload'
+        if (tooltipImage.complete) {
+          tooltipImage.onload();
         }
+        
+      } else {
+        // Jeśli nie ma obrazka, po prostu pokaż dymek i ustaw pozycję
+        tooltipImage.style.display = 'none';
+        tooltipImage.src = '';
+        tooltipImage.onload = null;
+        
+        tooltip.style.display = 'flex'; // Pokaż dymek
+        positionTooltip(clickX, clickY); // Oblicz pozycję
       }
-      
-      let newTop = clickY + 15;
-      if (newTop + tooltipHeight + 10 > windowHeight) {
-        newTop = clickY - tooltipHeight - 15;
-        if (newTop < 10) {
-            newTop = 10;
-        }
-      }
-
-      tooltip.style.top = newTop + 'px'; 
-      tooltip.style.left = newLeft + 'px';
     });
   });
 
-  // Zamykanie dymka po kliknięciu GDZIEKOLWIEK indziej
+  // Zamykanie dymka (teraz używa funkcji hideTooltip)
   document.addEventListener('click', (e) => {
-    // Ukrywa tooltip, jeśli kliknięto poza samym tooltipem
-    // Ta logika jest poprawna, .contains() działa
     if (!tooltip.contains(e.target)) {
-      tooltip.style.display = 'none';
-      tooltipImage.style.display = 'none'; 
+      hideTooltip();
     }
   });
-  
-  // Zapobiegaj zamykaniu dymka po kliknięciu W ŚRODKU dymka
-  // (Chociaż !tooltip.contains(e.target) już to załatwia,
-  //  to jest dobra praktyka na wszelki wypadek)
-  tooltip.addEventListener('click', (e) => {
-    e.stopPropagation();
-  });
 
-
-  // --- SKRYPT DLA ZAKŁADEK (BEZ ZMIAN) ---
+  // --- SKRYPT DLA ZAKŁADEK (NOWA LOGIKA) ---
   const tabButtons = document.querySelectorAll('.tab-link');
   const tabContents = document.querySelectorAll('.tab-content');
 
@@ -496,8 +496,7 @@
       button.classList.add('active');
       
       // Ukryj dymek przy zmianie zakładki
-      tooltip.style.display = 'none';
-      tooltipImage.style.display = 'none'; 
+      hideTooltip();
     });
   });
 </script>
